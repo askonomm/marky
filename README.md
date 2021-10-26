@@ -5,7 +5,7 @@ A tiny Markdown parser written in TypeScript that spits out HTML. Currently supp
 ## Usage
 
 ```typescript
-import marky from 'https://raw.githubusercontent.com/askonomm/marky/master/marky.ts';
+import { marky } from 'https://deno.land/x/marky/mod.ts';
 
 const html = marky('**hi there**'); // => <p><strong>hi there</strong></p>
 ```
