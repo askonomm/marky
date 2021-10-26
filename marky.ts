@@ -84,7 +84,7 @@ function paragraph(content: string): string {
  * where it will be polished into fine bits of HTML and handed down
  * to you with great glory.
  */
-export default function marky(content: string): string {
+export function marky(content: string): string {
     // Turns **{string}** to <strong>{string}</strong>
     content = bold(content);
 
