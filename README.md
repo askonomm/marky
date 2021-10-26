@@ -1,7 +1,7 @@
 # Marky
 
-A Markdown parser written in TypeScript that spits out HTML. Currently
-supports only a subset of the Markdown spec. Meant to be used with
+A Markdown parser written in TypeScript that spits out HTML. Currently supports
+only a subset of the Markdown spec. Meant to be used with
 [Deno](https://deno.land).
 
 ## Usage
@@ -30,9 +30,10 @@ Italic text is created by wrapping selected text with one underscore character.
 There's _nothing_ quite like a cold beverage on a hot summer night.
 ```
 
-### Inline code 
+### Inline code
 
-Inline code text is created by wrapping selected text with one backtick character.
+Inline code text is created by wrapping selected text with one backtick
+character.
 
 ```markdown
 There's `nothing` quite like a cold beverage on a hot summer night.
@@ -48,7 +49,9 @@ There's ~~nothing~~ quite like a cold beverage on a hot summer night.
 
 ### Paragraphs
 
-Paragraphs are created by simply leaving one empty line break between text, which, technically means having two line breaks, but remember it as just one empty line between text.
+Paragraphs are created by simply leaving one empty line break between text,
+which, technically means having two line breaks, but remember it as just one
+empty line between text.
 
 ## To-do until stable release
 
