@@ -57,7 +57,6 @@ Paragraphs are created by simply leaving one empty line break between text, whic
 - [x] Parse paragraphs
 - [x] Parse inline code
 - [x] Parse striked out text
-- [ ] Parse underlined text
 - [ ] Parse headings
 - [ ] Parse code blocks
 - [ ] Parse links
