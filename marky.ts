@@ -86,7 +86,6 @@ function paragraph(content: string): string {
 
     return blocks.map(block => {
         // Clean up
-        console.log(block);
         const normalizedBlock = block.replace('\n', '').trim();
         
         // Return as-is when starts with `#`, because
