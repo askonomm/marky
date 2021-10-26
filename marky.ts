@@ -56,6 +56,25 @@ function inlineCode(content: string): string {
 }
 
 /**
+ * Parses given `content` for any inline code text which sits between
+ * the tilde characters like `~~text~~`.
+ */
+function strikethrough(content: string): string {
+    const matches = content.match(/~~.*~~/g);
+
+    if (matches) {
+        for (const match of matches) {
+            const value = match.substring(2, match.length - 2);
+            const replacement = `<del>${value}</del>`;
+
+            content = content.replace(match, replacement);
+        }
+    }
+    
+    return content;
+}
+
+/**
  * Parses given `content` for double line breaks which it then
  * turns into paragraphs. 
  * 
@@ -67,6 +86,7 @@ function paragraph(content: string): string {
 
     return blocks.map(block => {
         // Clean up
+        console.log(block);
         const normalizedBlock = block.replace('\n', '').trim();
         
         // Return as-is when starts with `#`, because
@@ -93,6 +113,9 @@ export function marky(content: string): string {
 
     // Turns `{string}` to <code>{string}</code>
     content = inlineCode(content);
+
+    // Turns `~~{string}~~` to <del>{string}</del>
+    content = strikethrough(content);
 
     // turns two line breaks into paragraphs
     content = paragraph(content);
