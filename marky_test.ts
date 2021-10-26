@@ -29,16 +29,20 @@ Deno.test("Test strikethrough text parsing and conversion", () => {
   assertEquals(expectedResult, marky(testString));
 });
 
-// Test paragraph parsing and conversion
-Deno.test("Test strikethrough text parsing and conversion", () => {
+// Test block parsing and conversion
+Deno.test("Test block parsing and conversion", () => {
   const testString = `
 # The Villain
 
 Hello Mr. Bond.
 
 I've been _expecting_ you.
+
+## The Bond
+
+Why, me too!
     `;
   const expectedResult =
-    `# The Villain<p>Hello Mr. Bond.</p><p>I've been <em>expecting</em> you.</p>`;
+    `<h1>The Villain</h1><p>Hello Mr. Bond.</p><p>I've been <em>expecting</em> you.</p><h2>The Bond</h2><p>Why, me too!</p>`;
   assertEquals(expectedResult, marky(testString));
 });
