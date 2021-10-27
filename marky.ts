@@ -109,10 +109,7 @@ function blockParagraph(block: string): string {
 
 /**
  * Parses given `content` for double line breaks which it then
- * turns into paragraphs.
- *
- * It currently avoids headings, but in the future there might
- * be more thing this needs to avoid, like blockquotes, etc.
+ * turns into blocks.
  */
 function block(content: string): string {
   const blocks = content.split(/\n\n/);
