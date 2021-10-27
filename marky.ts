@@ -118,8 +118,7 @@ function block(content: string): string {
     // Clean up
     const normalizedBlock = block.replace("\n", "").trim();
 
-    // Return as-is when starts with `#`, because
-    // those are headings, not paragraphs.
+    // Heading block?
     if (isBlockHeading(normalizedBlock)) {
       return blockHeading(normalizedBlock);
     }
