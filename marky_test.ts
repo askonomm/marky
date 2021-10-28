@@ -29,6 +29,13 @@ Deno.test("strikethrough text parsing and conversion", () => {
   assertEquals(expectedResult, marky(testString));
 });
 
+// Links and images text parsing and conversion
+Deno.test("links and images parsing and conversion", () => {
+  const testString = `Hello [Mr. Bond](https://google.com). Here's a ![cat](catpic.jpg)`;
+  const expectedResult = `<p>Hello <a href="https://google.com">Mr. Bond</a>. Here's a <img src="catpic.jpg" alt="cat"></p>`;
+  assertEquals(expectedResult, marky(testString));
+});
+
 // Test code blocks
 Deno.test("code blocks", () => {
   const testString = `
