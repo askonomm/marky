@@ -30,6 +30,22 @@ Italic text is created by wrapping selected text with one underscore character.
 There's _nothing_ quite like a cold beverage on a hot summer night.
 ```
 
+### Links
+
+Links can be created by wrapping the label of a link in two square brackets, followed by the link being wrapped in two parentheses.
+
+```markdown
+You should totally [visit my site](https://bien.ee).
+```
+
+### Images
+
+Images can be created just like links, where you wrap the label (well, alt title in this case) in two square brackets which is followed by the image aadress being wrapped in two parentheses. Except, add a exclamation mark in front, which will signify that we're dealing with an image and not with a link.
+
+```markdown
+Here's a photo ![profile photo](https://somewhere.com/photo.jpg)
+```
+
 ### Inline code
 
 Inline code text is created by wrapping selected text with one backtick
@@ -101,8 +117,8 @@ code goes here
 - [x] Parse striked out text
 - [x] Parse headings
 - [x] Parse code blocks
-- [ ] Parse links
-- [ ] Parse images
+- [x] Parse links
+- [x] Parse images
 - [ ] Parse quote blocks (and nested quote blocks!)
 - [ ] Parse unordered lists (and nested lists!)
 - [ ] Parse ordered lists (and nested lists!)
