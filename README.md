@@ -63,6 +63,18 @@ Striked out text is created by wrapping selected text with two tilde characters.
 There's ~~nothing~~ quite like a cold beverage on a hot summer night.
 ```
 
+### Horizontal line separator
+
+Horizontal line separator is created by having a block separated by a empty line break (just like paragraphs or code blocks) and writing three concecutive asterisk characters.
+
+```markdown
+This is a paragraph.
+
+***
+
+And this is another paragraph separated by a horizontal line.
+```
+
 ### Paragraphs
 
 Paragraphs are created by simply leaving one empty line break between text,
@@ -119,7 +131,7 @@ code goes here
 - [x] Parse code blocks
 - [x] Parse links
 - [x] Parse images
+- [x] Parse horizontal line separators
 - [ ] Parse quote blocks (and nested quote blocks!)
 - [ ] Parse unordered lists (and nested lists!)
 - [ ] Parse ordered lists (and nested lists!)
-- [ ] Parse horizontal line separators

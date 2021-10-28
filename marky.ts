@@ -161,6 +161,20 @@ function codeBlock(block: string): string {
 }
 
 /**
+ * Checks whether the given `block` is a horizontal line block.
+ */
+function isHorizontalLineBlock(block: string): boolean {
+  return block.replaceAll("\n", "").trim() === "***";
+}
+
+/**
+ * Compiles HTML that creates a horizontal line, e.g `<hr>`.
+ */
+function horizontalLineBlock(): string {
+  return `<hr>`;
+}
+
+/**
  * Scans given `blocks` for any partial code blocks which
  * it then stitches together, returning only whole blocks.
  */
@@ -242,6 +256,11 @@ function createBlocks(content: string): string {
     // Code block?
     if (isCodeBlock(block)) {
       return codeBlock(block);
+    }
+
+    // Horizontal line block?
+    if (isHorizontalLineBlock(block)) {
+      return horizontalLineBlock();
     }
 
     // If we make it here, it must be a regular paragraph.
