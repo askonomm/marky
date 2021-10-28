@@ -72,6 +72,24 @@ As you can see, the smaller the amount of octothorp characters the bigger the
 title will be. You can use as many octothorps as you wish, but browsers can only
 recognize up to 6 of them.
 
+### Code blocks
+
+Code blocks are created by wrapping your code with three backtick characters.
+
+```markdown
+```
+code goes here
+```
+```
+
+If you want to also make sure that the HTML output would have a class associated with the programming language used in the code block, make sure to append the language name to the first occurence of backticks, like so:
+
+```markdown
+```javascript
+code goes here
+```
+```
+
 ## To-do until stable release
 
 - [x] Parse bold text
