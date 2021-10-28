@@ -223,7 +223,7 @@ function paragraphBlock(block: string): string {
  * turns into blocks.
  */
 function createBlocks(content: string): string {
-  const blocks = pipe(content.split(/\n\n/), stitchCodeBlocks);
+  const blocks: string[] = pipe(content.split(/\n\n/), stitchCodeBlocks);
 
   return blocks.map((block) => {
     // Heading block?
@@ -265,9 +265,3 @@ function createBlocks(content: string): string {
 export function marky(content: string): string {
   return createBlocks(content);
 }
-
-console.log(marky(`![isimage](asdasd)
-Hola [link](url) asdasd and [another link goes here](https://google.com#123123.php) because _why not_ and _not_.
-
-But ![isimage](asdasd)
-`));
