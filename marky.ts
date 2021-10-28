@@ -141,12 +141,20 @@ function stitchCodeBlocks(blocks: string[]): string[] {
   const codeBlockIndexes: number[] = [];
 
   blocks.forEach((block, index) => {
+    // If the block starts as a code block, but doesn't end as
+    // one, that means the code block spans multiple blocks and 
+    // we need to stitch them together until we find an end.
     if (block.startsWith("```") && !block.endsWith("```")) {
       let capturingBlock = block;
       let nextIndex = index + 1;
       const nextBlock = blocks[nextIndex];
+
+      // Saving indexes of blocks that are code blocks to be able
+      // to distinguish between code blocks and other blocks.
       codeBlockIndexes.push(...[index, nextIndex]);
 
+      // This will run and stitch together blocks until it finds 
+      // that the next block is the end of the code block. 
       while (typeof nextBlock !== "undefined" && !nextBlock.endsWith("```")) {
         if (!codeBlockIndexes.length) {
           capturingBlock += blocks[nextIndex];
@@ -156,13 +164,18 @@ function stitchCodeBlocks(blocks: string[]): string[] {
         nextIndex += 1;
       }
 
+      // Now that we know that the next block is the last one, 
+      // we can stitch that as well.
       capturingBlock += "\n\n" + blocks[nextIndex];
 
+      // One block done :)
       capturedBlocks.push(capturingBlock);
-    } else {
-      if (!codeBlockIndexes.includes(index)) {
-        capturedBlocks.push(block);
-      }
+    } 
+    
+    // The following will be any other block, which we'll
+    // keep as-is.
+    else if (!codeBlockIndexes.includes(index)) {
+      capturedBlocks.push(block);
     }
   });
 
