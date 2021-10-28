@@ -121,10 +121,10 @@ function codeBlock(block: string): string {
   const language = languageMatch
     ? languageMatch[0].replace("```", "").trim()
     : false;
-  let value = '';
+  let value = "";
 
   if (language) {
-    value = block.replace(/\`\`\`\w+/, '').replace(/\n\`\`\`/, '');
+    value = block.replace(/\`\`\`\w+/, "").replace(/\n\`\`\`/, "");
     return `<pre class="language-${language}"><code>${value}</code></pre>`;
   }
 
@@ -141,13 +141,13 @@ function stitchCodeBlocks(blocks: string[]): string[] {
   const codeBlockIndexes: number[] = [];
 
   blocks.forEach((block, index) => {
-    if (block.startsWith('```') && !block.endsWith('```')) {
+    if (block.startsWith("```") && !block.endsWith("```")) {
       let capturingBlock = block;
       let nextIndex = index + 1;
       const nextBlock = blocks[nextIndex];
       codeBlockIndexes.push(...[index, nextIndex]);
 
-      while (typeof nextBlock !== 'undefined' && !nextBlock.endsWith('```')) {
+      while (typeof nextBlock !== "undefined" && !nextBlock.endsWith("```")) {
         if (!codeBlockIndexes.length) {
           capturingBlock += blocks[nextIndex];
         } else {

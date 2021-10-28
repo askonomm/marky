@@ -55,7 +55,7 @@ asdasdjs goes Header
 
 and what if this also has \`\`\`ticks\`\`\`</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
   assertEquals(expectedResult, marky(testString));
-})
+});
 
 // Test block parsing and conversion
 Deno.test("block parsing and conversion", () => {
