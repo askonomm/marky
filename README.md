@@ -55,7 +55,8 @@ empty line between text.
 
 ### Headings
 
-Headings are created by adding a octothorp (hashtag) character in front of a block of text that is separated from others by one empty line. 
+Headings are created by adding a octothorp (hashtag) character in front of a
+block of text that is separated from others by one empty line.
 
 ```markdown
 # This is a big title
@@ -67,7 +68,9 @@ And some paragraph goes here.
 And another paragraph goes here.
 ```
 
-As you can see, the smaller the amount of octothorp characters the bigger the title will be. You can use as many octothorps as you wish, but browsers can only recognize up to 6 of them.
+As you can see, the smaller the amount of octothorp characters the bigger the
+title will be. You can use as many octothorps as you wish, but browsers can only
+recognize up to 6 of them.
 
 ## To-do until stable release
 
@@ -77,7 +80,7 @@ As you can see, the smaller the amount of octothorp characters the bigger the ti
 - [x] Parse inline code
 - [x] Parse striked out text
 - [x] Parse headings
-- [ ] Parse code blocks
+- [x] Parse code blocks
 - [ ] Parse links
 - [ ] Parse images
 - [ ] Parse quote blocks (and nested quote blocks!)

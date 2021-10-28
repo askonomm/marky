@@ -29,6 +29,34 @@ Deno.test("strikethrough text parsing and conversion", () => {
   assertEquals(expectedResult, marky(testString));
 });
 
+// Test code blocks
+Deno.test("code blocks", () => {
+  const testString = `
+Hi there.
+
+\`\`\`
+code goes Header
+\`\`\`
+
+\`\`\`javascript
+asdasdjs goes Header
+
+and what if this also has \`\`\`ticks\`\`\`
+\`\`\`
+
+And regular text ensues.
+
+And more regular text.
+  `;
+  const expectedResult = `<p>Hi there.</p><pre><code>
+code goes Header
+</code></pre><pre class="language-javascript"><code>
+asdasdjs goes Header
+
+and what if this also has \`\`\`ticks\`\`\`</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
+  assertEquals(expectedResult, marky(testString));
+})
+
 // Test block parsing and conversion
 Deno.test("block parsing and conversion", () => {
   const testString = `

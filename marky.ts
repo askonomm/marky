@@ -46,7 +46,7 @@ function italic(content: string): string {
  * HTML like `<code>text</code>`.
  */
 function inlineCode(content: string): string {
-  const matches = content.match(/\`.*\`/g);
+  const matches = content.match(/\`[^\`].*\`[^\`]{0}/g);
 
   if (matches) {
     for (const match of matches) {
@@ -83,48 +83,136 @@ function strikethrough(content: string): string {
 /**
  * Checks whether the given `block` is a heading block.
  */
-function isBlockHeading(block: string): boolean {
-  return block.startsWith("#");
+function isHeadingBlock(block: string): boolean {
+  return block.replaceAll("\n", "").trim().startsWith("#");
 }
 
 /**
  * Parses the given `block` for heading sizes and compiles
  * that into HTML like `<h1>text</h1>`.
  */
-function blockHeading(block: string): string {
-  const sizeIndicators = block.split(" ")[0].trim();
+function headingBlock(block: string): string {
+  const singleLineBlock = block.replaceAll("\n", "").trim();
+  const sizeIndicators = singleLineBlock.split(" ")[0].trim();
   const size = sizeIndicators.length;
-  const value = block.split(" ").slice(1).join(" ").trim();
+  const value = singleLineBlock.split(" ").slice(1).join(" ").trim();
 
   return `<h${size}>${value}</h${size}>`;
+}
+
+/**
+ * Checks whether the given `block` is a code block.
+ */
+function isCodeBlock(block: string): boolean {
+  const singleLineBlock = block.replaceAll("\n", "").trim();
+
+  return (
+    singleLineBlock.startsWith("```") &&
+    singleLineBlock.endsWith("```")
+  );
+}
+
+/**
+ * Parses the given `block` for a code block and compiles
+ * that into HTML like `<pre><code>text</code></pre>`.
+ */
+function codeBlock(block: string): string {
+  const languageMatch = block.match(/\`\`\`\w+/);
+  const language = languageMatch
+    ? languageMatch[0].replace("```", "").trim()
+    : false;
+  let value = '';
+
+  if (language) {
+    value = block.replace(/\`\`\`\w+/, '').replace(/\n\`\`\`/, '');
+    return `<pre class="language-${language}"><code>${value}</code></pre>`;
+  }
+
+  value = block.substring(3, block.length - 3);
+  return `<pre><code>${value}</code></pre>`;
+}
+
+/**
+ * Scans given `blocks` for any partial code blocks which
+ * it then stitches together, returning only whole blocks.
+ */
+function stitchCodeBlocks(blocks: string[]): string[] {
+  const capturedBlocks: string[] = [];
+  const codeBlockIndexes: number[] = [];
+
+  blocks.forEach((block, index) => {
+    if (block.startsWith('```') && !block.endsWith('```')) {
+      let capturingBlock = block;
+      let nextIndex = index + 1;
+      const nextBlock = blocks[nextIndex];
+      codeBlockIndexes.push(...[index, nextIndex]);
+
+      while (typeof nextBlock !== 'undefined' && !nextBlock.endsWith('```')) {
+        if (!codeBlockIndexes.length) {
+          capturingBlock += blocks[nextIndex];
+        } else {
+          capturingBlock += "\n\n" + blocks[nextIndex];
+        }
+        nextIndex += 1;
+      }
+
+      capturingBlock += "\n\n" + blocks[nextIndex];
+
+      capturedBlocks.push(capturingBlock);
+    } else {
+      if (!codeBlockIndexes.includes(index)) {
+        capturedBlocks.push(block);
+      }
+    }
+  });
+
+  return capturedBlocks;
 }
 
 /**
  * Parses the given block for a paragraph and compiles
  * that into HTML like `<p>text</p>`.
  */
-function blockParagraph(block: string): string {
-  return `<p>${block}</p>`;
+function paragraphBlock(block: string): string {
+  const singleLineBlock = block.replaceAll("\n", "").trim();
+
+  return `<p>${singleLineBlock}</p>`;
 }
 
 /**
  * Parses given `content` for double line breaks which it then
  * turns into blocks.
  */
-function block(content: string): string {
-  const blocks = content.split(/\n\n/);
+function createBlocks(content: string): string {
+  const blocks = pipe(content.split(/\n\n/), stitchCodeBlocks);
 
   return blocks.map((block) => {
-    // Clean up
-    const normalizedBlock = block.replace("\n", "").trim();
-
     // Heading block?
-    if (isBlockHeading(normalizedBlock)) {
-      return blockHeading(normalizedBlock);
+    if (isHeadingBlock(block)) {
+      return pipe(
+        block,
+        headingBlock,
+        bold,
+        italic,
+        inlineCode,
+        strikethrough,
+      );
+    }
+
+    // Code block?
+    if (isCodeBlock(block)) {
+      return codeBlock(block);
     }
 
     // If we make it here, it must be a regular paragraph.
-    return blockParagraph(normalizedBlock);
+    return pipe(
+      block,
+      paragraphBlock,
+      bold,
+      italic,
+      inlineCode,
+      strikethrough,
+    );
   }).join("");
 }
 
@@ -134,12 +222,5 @@ function block(content: string): string {
  * to you with great glory.
  */
 export function marky(content: string): string {
-  return pipe(
-    content,
-    bold,
-    italic,
-    inlineCode,
-    strikethrough,
-    block,
-  );
+  return createBlocks(content);
 }
