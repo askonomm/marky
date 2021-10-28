@@ -76,19 +76,19 @@ recognize up to 6 of them.
 
 Code blocks are created by wrapping your code with three backtick characters.
 
-```markdown
-\`\`\`
-code goes here
-\`\`\`
+````markdown
 ```
+code goes here
+```
+````
 
 If you want to also make sure that the HTML output would have a class associated with the programming language used in the code block, make sure to append the language name to the first occurence of backticks, like so:
 
-```markdown
-\`\`\`javascript
+````markdown
+```javascript
 code goes here
-\`\`\`
 ```
+````
 
 ## To-do until stable release
 
