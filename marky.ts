@@ -81,6 +81,34 @@ function strikethrough(content: string): string {
 }
 
 /**
+ * Parses given `content` for any links which look like `[label](url)`
+ * or images which look like `![alt-title](url)` and then compiles that
+ * into HTML like `<a href="url">label</a>` or `<img src="url" alt="label">`.
+ */
+function linkAndImage(content: string): string {
+  const matches = content.match(/\[(.*?)\]\((.*?)\)/g);
+
+  if (matches) {
+    for (const match of matches) {
+      const isImage = content[content.indexOf(match) - 1] === "!";
+      const label = match.substring(match.indexOf("[") + 1, match.indexOf("]"));
+      const href = match.substring(match.indexOf("(") + 1, match.indexOf(")"));
+
+      if (isImage) {
+        content = content.replace(
+          "!" + match,
+          `<img src="${href}" alt="${label}">`,
+        );
+      } else {
+        content = content.replace(match, `<a href="${href}">${label}</a>`);
+      }
+    }
+  }
+
+  return content;
+}
+
+/**
  * Checks whether the given `block` is a heading block.
  */
 function isHeadingBlock(block: string): boolean {
@@ -142,7 +170,7 @@ function stitchCodeBlocks(blocks: string[]): string[] {
 
   blocks.forEach((block, index) => {
     // If the block starts as a code block, but doesn't end as
-    // one, that means the code block spans multiple blocks and 
+    // one, that means the code block spans multiple blocks and
     // we need to stitch them together until we find an end.
     if (block.startsWith("```") && !block.endsWith("```")) {
       let capturingBlock = block;
@@ -153,8 +181,8 @@ function stitchCodeBlocks(blocks: string[]): string[] {
       // to distinguish between code blocks and other blocks.
       codeBlockIndexes.push(...[index, nextIndex]);
 
-      // This will run and stitch together blocks until it finds 
-      // that the next block is the end of the code block. 
+      // This will run and stitch together blocks until it finds
+      // that the next block is the end of the code block.
       while (typeof nextBlock !== "undefined" && !nextBlock.endsWith("```")) {
         if (!codeBlockIndexes.length) {
           capturingBlock += blocks[nextIndex];
@@ -164,15 +192,13 @@ function stitchCodeBlocks(blocks: string[]): string[] {
         nextIndex += 1;
       }
 
-      // Now that we know that the next block is the last one, 
+      // Now that we know that the next block is the last one,
       // we can stitch that as well.
       capturingBlock += "\n\n" + blocks[nextIndex];
 
       // One block done :)
       capturedBlocks.push(capturingBlock);
-    } 
-    
-    // The following will be any other block, which we'll
+    } // The following will be any other block, which we'll
     // keep as-is.
     else if (!codeBlockIndexes.includes(index)) {
       capturedBlocks.push(block);
@@ -197,7 +223,7 @@ function paragraphBlock(block: string): string {
  * turns into blocks.
  */
 function createBlocks(content: string): string {
-  const blocks = pipe(content.split(/\n\n/), stitchCodeBlocks);
+  const blocks: string[] = pipe(content.split(/\n\n/), stitchCodeBlocks);
 
   return blocks.map((block) => {
     // Heading block?
@@ -209,6 +235,7 @@ function createBlocks(content: string): string {
         italic,
         inlineCode,
         strikethrough,
+        linkAndImage,
       );
     }
 
@@ -225,6 +252,7 @@ function createBlocks(content: string): string {
       italic,
       inlineCode,
       strikethrough,
+      linkAndImage,
     );
   }).join("");
 }
