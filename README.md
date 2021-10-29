@@ -7,7 +7,7 @@ A Markdown parser written in TypeScript that spits out HTML available as a Deno 
 ### Deno 
 
 ```typescript
-import { marky } from "https://deno.land/x/marky/mod.ts";
+import { marky } from "https://deno.land/x/marky@v0.5/mod.ts";
 
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
@@ -26,7 +26,7 @@ Or if you want to use Marky in the browser and don't want to bother downloading 
 
 ```html
 <script type="module">
-import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky/marky.esm.js";
+import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@0.5/marky.esm.js";
 
 document.querySelector('body').innerHTML = marky("** hi there**");
 </script>
