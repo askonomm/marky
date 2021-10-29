@@ -175,6 +175,42 @@ function horizontalLineBlock(): string {
 }
 
 /**
+ * Checks whether the given `block` is a quote block.
+ */
+function isQuoteBlock(block: string): boolean {
+  const matches = block.match(/>.*/g);
+
+  if (matches) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Parses the given `block` and compiles HTML that creates 
+ * a blockquote like `<blockquote>text</blockquote>`. It's a
+ * recursive action, in that each blockquote will also be ran 
+ * through Marky itself, again and again, until all nested 
+ * blockquotes are also parsed just like any other blocks.
+ */
+function quoteBlock(block: string): string {
+  const matches = block.match(/>.*/g);
+
+  if (matches) {
+    return `<blockquote>${
+      createBlocks(
+        matches.map((match) => {
+          return match.substring(1);
+        }).join("\n"),
+      )
+    }</blockquote>`;
+  }
+
+  return block;
+}
+
+/**
  * Scans given `blocks` for any partial code blocks which
  * it then stitches together, returning only whole blocks.
  */
@@ -261,6 +297,14 @@ function createBlocks(content: string): string {
     // Horizontal line block?
     if (isHorizontalLineBlock(block)) {
       return horizontalLineBlock();
+    }
+
+    // Quote block?
+    if (isQuoteBlock(block)) {
+      return pipe(
+        block,
+        quoteBlock,
+      );
     }
 
     // If we make it here, it must be a regular paragraph.

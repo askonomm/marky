@@ -32,7 +32,8 @@ There's _nothing_ quite like a cold beverage on a hot summer night.
 
 ### Links
 
-Links can be created by wrapping the label of a link in two square brackets, followed by the link being wrapped in two parentheses.
+Links can be created by wrapping the label of a link in two square brackets,
+followed by the link being wrapped in two parentheses.
 
 ```markdown
 You should totally [visit my site](https://bien.ee).
@@ -40,7 +41,10 @@ You should totally [visit my site](https://bien.ee).
 
 ### Images
 
-Images can be created just like links, where you wrap the label (well, alt title in this case) in two square brackets which is followed by the image aadress being wrapped in two parentheses. Except, add a exclamation mark in front, which will signify that we're dealing with an image and not with a link.
+Images can be created just like links, where you wrap the label (well, alt title
+in this case) in two square brackets which is followed by the image aadress
+being wrapped in two parentheses. Except, add a exclamation mark in front, which
+will signify that we're dealing with an image and not with a link.
 
 ```markdown
 Here's a photo ![profile photo](https://somewhere.com/photo.jpg)
@@ -65,7 +69,9 @@ There's ~~nothing~~ quite like a cold beverage on a hot summer night.
 
 ### Horizontal line separator
 
-Horizontal line separator is created by having a block separated by a empty line break (just like paragraphs or code blocks) and writing three concecutive asterisk characters.
+Horizontal line separator is created by having a block separated by a empty line
+break (just like paragraphs or code blocks) and writing three concecutive
+asterisk characters.
 
 ```markdown
 This is a paragraph.
@@ -120,6 +126,28 @@ code goes here
 ```
 ````
 
+### Quote blocks
+
+Quote blocks are created by prepending an arrow and space to the left of the text you want to quote.
+
+```markdown
+This is a paragraph of text.
+
+> This is a paragraph of text in a quote
+```
+
+Quote blocks behave like any other block, in that if you separate quote blocks by one item where there is no text (only arrow), you create new paragraphs. You can also nest quote blocks by appeding more arrows.
+
+```markdown
+This is a paragraph of text.
+
+> This is a paragraph of text in a quote
+>
+> This is another paragraph of text in a quote.
+>
+> > This is a paragraph of text in a nested quote.
+```
+
 ## To-do until stable release
 
 - [x] Parse bold text
@@ -132,6 +160,6 @@ code goes here
 - [x] Parse links
 - [x] Parse images
 - [x] Parse horizontal line separators
-- [ ] Parse quote blocks (and nested quote blocks!)
+- [x] Parse quote blocks (and nested quote blocks!)
 - [ ] Parse unordered lists (and nested lists!)
 - [ ] Parse ordered lists (and nested lists!)

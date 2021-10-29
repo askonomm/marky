@@ -31,8 +31,10 @@ Deno.test("strikethrough text parsing and conversion", () => {
 
 // Links and images text parsing and conversion
 Deno.test("links and images parsing and conversion", () => {
-  const testString = `Hello [Mr. Bond](https://google.com). Here's a ![cat](catpic.jpg)`;
-  const expectedResult = `<p>Hello <a href="https://google.com">Mr. Bond</a>. Here's a <img src="catpic.jpg" alt="cat"></p>`;
+  const testString =
+    `Hello [Mr. Bond](https://google.com). Here's a ![cat](catpic.jpg)`;
+  const expectedResult =
+    `<p>Hello <a href="https://google.com">Mr. Bond</a>. Here's a <img src="catpic.jpg" alt="cat"></p>`;
   assertEquals(expectedResult, marky(testString));
 });
 
@@ -61,6 +63,23 @@ code goes Header
 asdasdjs goes Header
 
 and what if this also has \`\`\`ticks\`\`\`</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
+  assertEquals(expectedResult, marky(testString));
+});
+
+// Test quote blocks
+Deno.test("quote blocks", () => {
+  const testString = `
+> quote block _with italic text_
+> hola
+> and hola dos
+>
+> new paragraph!
+>
+> > nested blockquote
+> > continues here
+
+:)`;
+  const expectedResult = `<blockquote><p>quote block <em>with italic text</em> hola and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote continues here</p></blockquote></blockquote><p>:)</p>`;
   assertEquals(expectedResult, marky(testString));
 });
 
