@@ -12,7 +12,7 @@ import { marky } from "https://deno.land/x/marky@v0.5/mod.ts";
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
 
-### ES Module
+### ESM
 
 You can also use Marky anywhere where ES modules are supported by downloading and using the `marky.esm.js` file, and then importing it as follows:
 
