@@ -25,7 +25,7 @@ const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 Or if you want to use Marky in the browser and don't want to bother downloading and hosting Marky yourself then you can import it conveniently via JSDelivr like this:
 
 ```html
-<script>
+<script type="module">
 import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky/marky.esm.js";
 
 document.querySelector('body').innerHTML = marky("** hi there**");
