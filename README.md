@@ -1,15 +1,35 @@
 # Marky
 
-A Markdown parser written in TypeScript that spits out HTML. Currently supports
-only a subset of the Markdown spec. Meant to be used with
-[Deno](https://deno.land).
+A Markdown parser written in TypeScript that spits out HTML available as a Deno third party module and as a ES module.
 
 ## Usage
+
+### Deno 
 
 ```typescript
 import { marky } from "https://deno.land/x/marky/mod.ts";
 
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
+```
+
+### ES Module
+
+You can also use Marky anywhere where ES modules are supported by downloading and using the `marky.esm.js` file, and then importing it as follows:
+
+```javascript
+import { marky } from "./marky.esm.js";
+
+const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
+```
+
+Or if you want to use Marky in the browser and don't want to bother downloading and hosting Marky yourself then you can import it conveniently via JSDelivr like this:
+
+```html
+<script>
+import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky/marky.esm.js";
+
+document.querySelector('body').innerHTML = marky("** hi there**");
+</script>
 ```
 
 ## Spec
