@@ -79,7 +79,27 @@ Deno.test("quote blocks", () => {
 > > continues here
 
 :)`;
-  const expectedResult = `<blockquote><p>quote block <em>with italic text</em> hola and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote continues here</p></blockquote></blockquote><p>:)</p>`;
+  const expectedResult =
+    `<blockquote><p>quote block <em>with italic text</em> hola and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote continues here</p></blockquote></blockquote><p>:)</p>`;
+  assertEquals(expectedResult, marky(testString));
+});
+
+// Test list blocks
+Deno.test("list block parsing and conversion", () => {
+  const testString = `
+Paragraph.
+
+* and a new list!
+* woohoo
+- * Nested list
+- * Yes?
+- - 1. And another
+- - 2. More nest
+* **thing!**
+
+Another paragraph.`;
+  const expectedResult =
+    `<p>Paragraph.</p><ul><li>and a new list!</li><li>woohoo</li><ul><li>Nested list</li><li>Yes?</li><ol><li>And another</li><li>More nest</li></ol></ul><ol><ol><li>And another</li><li>More nest</li></ol></ol><li><strong>thing!</strong></li></ul><p>Another paragraph.</p>`;
   assertEquals(expectedResult, marky(testString));
 });
 

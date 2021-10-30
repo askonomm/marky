@@ -1,20 +1,22 @@
 # Marky
 
-A Markdown parser written in TypeScript that spits out HTML available as a Deno third party module and as a ES module.
+A Markdown parser written in TypeScript that spits out HTML available as a Deno
+third party module and as a ES module.
 
 ## Usage
 
-### Deno 
+### Deno
 
 ```typescript
-import { marky } from "https://deno.land/x/marky@v0.5/mod.ts";
+import { marky } from "https://deno.land/x/marky@v1.0/mod.ts";
 
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
 
 ### ESM
 
-You can also use Marky anywhere where ES modules are supported by downloading and using the `marky.esm.js` file, and then importing it as follows:
+You can also use Marky anywhere where ES modules are supported by downloading
+and using the `marky.esm.js` file, and then importing it as follows:
 
 ```javascript
 import { marky } from "./marky.esm.js";
@@ -22,11 +24,13 @@ import { marky } from "./marky.esm.js";
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
 
-Or if you want to use Marky in the browser and don't want to bother downloading and hosting Marky yourself then you can import it conveniently via JSDelivr like this:
+Or if you want to use Marky in the browser and don't want to bother downloading
+and hosting Marky yourself then you can import it conveniently via JSDelivr like
+this:
 
 ```html
 <script type="module">
-import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@0.5/marky.esm.js";
+import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.0/marky.esm.js";
 
 document.querySelector('body').innerHTML = marky("** hi there**");
 </script>
@@ -87,7 +91,7 @@ Striked out text is created by wrapping selected text with two tilde characters.
 There's ~~nothing~~ quite like a cold beverage on a hot summer night.
 ```
 
-### Horizontal line separator
+### Horizontal line separator block
 
 Horizontal line separator is created by having a block separated by a empty line
 break (just like paragraphs or code blocks) and writing three concecutive
@@ -101,13 +105,13 @@ This is a paragraph.
 And this is another paragraph separated by a horizontal line.
 ```
 
-### Paragraphs
+### Paragraph blocks
 
 Paragraphs are created by simply leaving one empty line break between text,
 which, technically means having two line breaks, but remember it as just one
 empty line between text.
 
-### Headings
+### Heading blocks
 
 Headings are created by adding a octothorp (hashtag) character in front of a
 block of text that is separated from others by one empty line.
@@ -148,7 +152,8 @@ code goes here
 
 ### Quote blocks
 
-Quote blocks are created by prepending an arrow and space to the left of the text you want to quote.
+Quote blocks are created by prepending an arrow and space to the left of the
+text you want to quote.
 
 ```markdown
 This is a paragraph of text.
@@ -156,7 +161,9 @@ This is a paragraph of text.
 > This is a paragraph of text in a quote
 ```
 
-Quote blocks behave like any other block, in that if you separate quote blocks by one item where there is no text (only arrow), you create new paragraphs. You can also nest quote blocks by appeding more arrows.
+Quote blocks behave like any other block, in that if you separate quote blocks
+by one item where there is no text (only arrow), you create new paragraphs. You
+can also nest quote blocks by appeding more arrows.
 
 ```markdown
 This is a paragraph of text.
@@ -168,18 +175,28 @@ This is a paragraph of text.
 > > This is a paragraph of text in a nested quote.
 ```
 
-## To-do until stable release
+### List blocks
 
-- [x] Parse bold text
-- [x] Parse italic text
-- [x] Parse paragraphs
-- [x] Parse inline code
-- [x] Parse striked out text
-- [x] Parse headings
-- [x] Parse code blocks
-- [x] Parse links
-- [x] Parse images
-- [x] Parse horizontal line separators
-- [x] Parse quote blocks (and nested quote blocks!)
-- [ ] Parse unordered lists (and nested lists!)
-- [ ] Parse ordered lists (and nested lists!)
+List blocks are created by prepending an asterisk character for unordered lists
+and a number with a dot suffix to ordered lists.
+
+```markdown
+This is a paragraph.
+
+* This is an unordered list item.
+* And this is another one.
+
+1. This is an ordered list item.
+2. And this is another one.
+```
+
+Nested lists are also supported, which can be created with a dash character
+prepended to list items, like so:
+
+```markdown
+* This is a list item.
+- * This is a nested list item
+- - 1. This is yet another level of nesting.
+- * And so on.
+* And so on.
+```

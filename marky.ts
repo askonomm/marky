@@ -180,18 +180,14 @@ function horizontalLineBlock(): string {
 function isQuoteBlock(block: string): boolean {
   const matches = block.match(/>.*/g);
 
-  if (matches) {
-    return true;
-  }
-
-  return false;
+  return !!matches;
 }
 
 /**
- * Parses the given `block` and compiles HTML that creates 
+ * Parses the given `block` and compiles HTML that creates
  * a blockquote like `<blockquote>text</blockquote>`. It's a
- * recursive action, in that each blockquote will also be ran 
- * through Marky itself, again and again, until all nested 
+ * recursive action, in that each blockquote will also be ran
+ * through Marky itself, again and again, until all nested
  * blockquotes are also parsed just like any other blocks.
  */
 function quoteBlock(block: string): string {
@@ -205,6 +201,71 @@ function quoteBlock(block: string): string {
         }).join("\n"),
       )
     }</blockquote>`;
+  }
+
+  return block;
+}
+
+/**
+ * Checks whether the given `block` is a unordered list block.
+ */
+function isListBlock(block: string): boolean {
+  const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
+
+  return !!matches;
+}
+
+/**
+ * Parses the given `block` and compiles HTML that creates lists.
+ * Both ordered and unordered lists, as well as nested lists, due to
+ * its recursive nature. The output is a mixture of `<ol>` and `<ul>`
+ * HTML with list items.
+ *
+ * As opposed to using two spaces to create a nested list, Marky uses
+ * a dash character `-` to signify that the given list should be nested.
+ * While the function itself has no limit to nesting, the current regex
+ * pattern supports only up to two levels deep nesting.
+ */
+function listBlock(block: string): string {
+  const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
+  const isOrderedList = matches && !matches[0].startsWith("*");
+  const skipIndexes: number[] = [];
+  let result = "";
+
+  if (matches) {
+    result += isOrderedList ? `<ol>` : `<ul>`;
+
+    matches.forEach((match, index) => {
+      if (skipIndexes.includes(index)) {
+        return;
+      }
+
+      // If the match starts with `-`, it means we're dealing
+      // with nested lists and thus need to stitch those matches
+      // together and pass them back to `createBlocks`.
+      if (match.startsWith("-")) {
+        let captured = match.substring(2);
+        let nextIndex = index + 1;
+        skipIndexes.push(...[index, nextIndex]);
+
+        while (
+          typeof matches[nextIndex] !== "undefined" &&
+          matches[nextIndex].startsWith("-")
+        ) {
+          captured += matches[nextIndex].substring(2);
+          nextIndex += 1;
+        }
+
+        result += createBlocks(captured);
+      } // Otherwise we continue as-is.
+      else {
+        result += `<li>${match.substring(2).trim()}</li>`;
+      }
+    });
+
+    result += isOrderedList ? `</ol>` : `</ul>`;
+
+    return result;
   }
 
   return block;
@@ -263,9 +324,7 @@ function stitchCodeBlocks(blocks: string[]): string[] {
  * that into HTML like `<p>text</p>`.
  */
 function paragraphBlock(block: string): string {
-  const singleLineBlock = block.replaceAll("\n", "").trim();
-
-  return `<p>${singleLineBlock}</p>`;
+  return `<p>${block.replaceAll("\n", "").trim()}</p>`;
 }
 
 /**
@@ -280,12 +339,12 @@ function createBlocks(content: string): string {
     if (isHeadingBlock(block)) {
       return pipe(
         block,
-        headingBlock,
         bold,
         italic,
         inlineCode,
         strikethrough,
         linkAndImage,
+        headingBlock,
       );
     }
 
@@ -301,21 +360,31 @@ function createBlocks(content: string): string {
 
     // Quote block?
     if (isQuoteBlock(block)) {
+      return quoteBlock(block);
+    }
+
+    // List block?
+    if (isListBlock(block)) {
       return pipe(
         block,
-        quoteBlock,
+        bold,
+        italic,
+        inlineCode,
+        strikethrough,
+        linkAndImage,
+        listBlock,
       );
     }
 
     // If we make it here, it must be a regular paragraph.
     return pipe(
       block,
-      paragraphBlock,
       bold,
       italic,
       inlineCode,
       strikethrough,
       linkAndImage,
+      paragraphBlock,
     );
   }).join("");
 }

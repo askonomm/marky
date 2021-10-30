@@ -94,10 +94,7 @@ function horizontalLineBlock() {
 }
 function isQuoteBlock(block) {
     const matches = block.match(/>.*/g);
-    if (matches) {
-        return true;
-    }
-    return false;
+    return !!matches;
 }
 function quoteBlock(block) {
     const matches = block.match(/>.*/g);
@@ -105,6 +102,42 @@ function quoteBlock(block) {
         return `<blockquote>${createBlocks(matches.map((match)=>{
             return match.substring(1);
         }).join("\n"))}</blockquote>`;
+    }
+    return block;
+}
+function isListBlock(block) {
+    const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
+    return !!matches;
+}
+function listBlock(block) {
+    const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
+    const isOrderedList = matches && !matches[0].startsWith("*");
+    const skipIndexes = [];
+    let result = "";
+    if (matches) {
+        result += isOrderedList ? `<ol>` : `<ul>`;
+        matches.forEach((match, index)=>{
+            if (skipIndexes.includes(index)) {
+                return;
+            }
+            if (match.startsWith("-")) {
+                let captured = match.substring(2);
+                let nextIndex = index + 1;
+                skipIndexes.push(...[
+                    index,
+                    nextIndex
+                ]);
+                while(typeof matches[nextIndex] !== "undefined" && matches[nextIndex].startsWith("-")){
+                    captured += matches[nextIndex].substring(2);
+                    nextIndex += 1;
+                }
+                result += createBlocks(captured);
+            } else {
+                result += `<li>${match.substring(2).trim()}</li>`;
+            }
+        });
+        result += isOrderedList ? `</ol>` : `</ul>`;
+        return result;
     }
     return block;
 }
@@ -137,14 +170,13 @@ function stitchCodeBlocks(blocks) {
     return capturedBlocks;
 }
 function paragraphBlock(block) {
-    const singleLineBlock = block.replaceAll("\n", "").trim();
-    return `<p>${singleLineBlock}</p>`;
+    return `<p>${block.replaceAll("\n", "").trim()}</p>`;
 }
 function createBlocks(content) {
     const blocks = pipe(content.split(/\n\n/), stitchCodeBlocks);
     return blocks.map((block)=>{
         if (isHeadingBlock(block)) {
-            return pipe(block, headingBlock, bold, italic, inlineCode, strikethrough, linkAndImage);
+            return pipe(block, bold, italic, inlineCode, strikethrough, linkAndImage, headingBlock);
         }
         if (isCodeBlock(block)) {
             return codeBlock(block);
@@ -153,9 +185,12 @@ function createBlocks(content) {
             return horizontalLineBlock();
         }
         if (isQuoteBlock(block)) {
-            return pipe(block, quoteBlock);
+            return quoteBlock(block);
         }
-        return pipe(block, paragraphBlock, bold, italic, inlineCode, strikethrough, linkAndImage);
+        if (isListBlock(block)) {
+            return pipe(block, bold, italic, inlineCode, strikethrough, linkAndImage, listBlock);
+        }
+        return pipe(block, bold, italic, inlineCode, strikethrough, linkAndImage, paragraphBlock);
     }).join("");
 }
 function marky1(content) {
