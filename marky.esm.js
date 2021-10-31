@@ -175,6 +175,9 @@ function paragraphBlock(block) {
 function createBlocks(content) {
     const blocks = pipe(content.split(/\n\n/), stitchCodeBlocks);
     return blocks.map((block)=>{
+        if (block.trim() === "") {
+            return "";
+        }
         if (isHeadingBlock(block)) {
             return pipe(block, bold, italic, inlineCode, strikethrough, linkAndImage, headingBlock);
         }

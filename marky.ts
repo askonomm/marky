@@ -336,6 +336,11 @@ function createBlocks(content: string): string {
   const blocks: string[] = pipe(content.split(/\n\n/), stitchCodeBlocks);
 
   return blocks.map((block) => {
+    // Empty block?
+    if (block.trim() === "") {
+      return "";
+    }
+    
     // Heading block?
     if (isHeadingBlock(block)) {
       return pipe(
