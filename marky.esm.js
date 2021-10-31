@@ -24,7 +24,7 @@ function italic(content) {
     return content;
 }
 function inlineCode(content) {
-    const matches = content.match(/\`[^\`].*\`[^\`]{0}/g);
+    const matches = content.match(/\`.*?\`/g);
     if (matches) {
         for (const match of matches){
             const value = match.substring(1, match.length - 1);

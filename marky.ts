@@ -46,7 +46,7 @@ function italic(content: string): string {
  * HTML like `<code>text</code>`.
  */
 function inlineCode(content: string): string {
-  const matches = content.match(/\`[^\`].*\`[^\`]{0}/g);
+  const matches = content.match(/\`.*?\`/g);
 
   if (matches) {
     for (const match of matches) {
