@@ -145,21 +145,21 @@ function stitchCodeBlocks(blocks) {
     const capturedBlocks = [];
     const codeBlockIndexes = [];
     blocks.forEach((block, index)=>{
-        if (block.startsWith("```") && !block.endsWith("```")) {
+        if (block.trim().startsWith("```") && !block.trim().endsWith("```")) {
             let capturingBlock = block;
             let nextIndex = index + 1;
-            const nextBlock = blocks[nextIndex];
             codeBlockIndexes.push(...[
                 index,
                 nextIndex
             ]);
-            while(typeof nextBlock !== "undefined" && !nextBlock.endsWith("```")){
+            while(typeof blocks[nextIndex] !== "undefined" && !blocks[nextIndex].trim().endsWith("```")){
                 if (!codeBlockIndexes.length) {
                     capturingBlock += blocks[nextIndex];
                 } else {
                     capturingBlock += "\n\n" + blocks[nextIndex];
                 }
                 nextIndex += 1;
+                codeBlockIndexes.push(nextIndex);
             }
             capturingBlock += "\n\n" + blocks[nextIndex];
             capturedBlocks.push(capturingBlock);
