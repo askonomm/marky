@@ -95,7 +95,7 @@ function horizontalLineBlock() {
   return `<hr>`;
 }
 function isQuoteBlock(block) {
-  return !!block.match(/>.*/g);
+  return block.replaceAll("\n", "").trim().startsWith(">");
 }
 function quoteBlock(block) {
   const matches = block.match(/>.*/g);

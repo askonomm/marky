@@ -177,7 +177,7 @@ function horizontalLineBlock(): string {
  * Checks whether the given `block` is a quote block.
  */
 function isQuoteBlock(block: string): boolean {
-  return !!block.match(/>.*/g);
+  return block.replaceAll("\n", "").trim().startsWith(">");
 }
 
 /**

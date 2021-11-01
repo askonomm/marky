@@ -69,6 +69,8 @@ and what if this also has \`\`\`ticks\`\`\`</code></pre><p>And regular text ensu
 // Test quote blocks
 Deno.test("quote blocks", () => {
   const testString = `
+Hi there.
+
 > quote block _with italic text_
 > hola
 > and hola dos
@@ -80,7 +82,7 @@ Deno.test("quote blocks", () => {
 
 :)`;
   const expectedResult =
-    `<blockquote><p>quote block <em>with italic text</em> hola and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote continues here</p></blockquote></blockquote><p>:)</p>`;
+    `<p>Hi there.</p><blockquote><p>quote block <em>with italic text</em> hola and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote continues here</p></blockquote></blockquote><p>:)</p>`;
   assertEquals(expectedResult, marky(testString));
 });
 
