@@ -293,7 +293,10 @@ function stitchCodeBlocks(blocks: string[]): string[] {
 
       // This will run and stitch together blocks until it finds
       // that the next block is the end of the code block.
-      while (typeof blocks[nextIndex] !== "undefined" && !blocks[nextIndex].trim().endsWith("```")) {
+      while (
+        typeof blocks[nextIndex] !== "undefined" &&
+        !blocks[nextIndex].trim().endsWith("```")
+      ) {
         if (!codeBlockIndexes.length) {
           capturingBlock += blocks[nextIndex];
         } else {
@@ -340,7 +343,7 @@ function createBlocks(content: string): string {
     if (block.trim() === "") {
       return "";
     }
-    
+
     // Heading block?
     if (isHeadingBlock(block)) {
       return pipe(
