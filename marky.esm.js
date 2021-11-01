@@ -86,8 +86,7 @@ function codeBlock(block) {
     value = block.replace(/\`\`\`\w+/, "").replace(/\n\`\`\`/, "");
     return `<pre class="language-${language}"><code>${value}</code></pre>`;
   }
-  value = block.substring(3, block.length - 3);
-  return `<pre><code>${value}</code></pre>`;
+  return `<pre><code>${block.substring(3, block.length - 3)}</code></pre>`;
 }
 function isHorizontalLineBlock(block) {
   return block.replaceAll("\n", "").trim() === "***";
@@ -96,8 +95,7 @@ function horizontalLineBlock() {
   return `<hr>`;
 }
 function isQuoteBlock(block) {
-  const matches = block.match(/>.*/g);
-  return !!matches;
+  return !!block.match(/>.*/g);
 }
 function quoteBlock(block) {
   const matches = block.match(/>.*/g);
@@ -113,8 +111,7 @@ function quoteBlock(block) {
   return block;
 }
 function isListBlock(block) {
-  const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
-  return !!matches;
+  return !!block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
 }
 function listBlock(block) {
   const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);

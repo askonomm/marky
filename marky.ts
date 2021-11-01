@@ -156,8 +156,7 @@ function codeBlock(block: string): string {
     return `<pre class="language-${language}"><code>${value}</code></pre>`;
   }
 
-  value = block.substring(3, block.length - 3);
-  return `<pre><code>${value}</code></pre>`;
+  return `<pre><code>${block.substring(3, block.length - 3)}</code></pre>`;
 }
 
 /**
@@ -178,9 +177,7 @@ function horizontalLineBlock(): string {
  * Checks whether the given `block` is a quote block.
  */
 function isQuoteBlock(block: string): boolean {
-  const matches = block.match(/>.*/g);
-
-  return !!matches;
+  return !!block.match(/>.*/g);
 }
 
 /**
@@ -210,9 +207,7 @@ function quoteBlock(block: string): string {
  * Checks whether the given `block` is a unordered list block.
  */
 function isListBlock(block: string): boolean {
-  const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
-
-  return !!matches;
+  return !!block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
 }
 
 /**
