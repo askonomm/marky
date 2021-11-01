@@ -8,7 +8,7 @@ third party module and as a ES module.
 ### Deno
 
 ```typescript
-import { marky } from "https://deno.land/x/marky@v1.0.2/mod.ts";
+import { marky } from "https://deno.land/x/marky@v1.0.3/mod.ts";
 
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
@@ -30,7 +30,7 @@ this:
 
 ```html
 <script type="module">
-import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.0.2/marky.esm.js";
+import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.0.3/marky.esm.js";
 
 document.querySelector('body').innerHTML = marky("** hi there**");
 </script>
