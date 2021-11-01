@@ -33,7 +33,7 @@ function inlineCode(content) {
   return content;
 }
 function strikethrough(content) {
-  const matches = content.match(/~~.*~~/g);
+  const matches = content.match(/~~.*?~~/g);
   if (matches) {
     for (const match of matches) {
       const value = match.substring(2, match.length - 2);

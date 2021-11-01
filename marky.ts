@@ -66,7 +66,7 @@ function inlineCode(content: string): string {
  * HTML like `<del>text</del>`.
  */
 function strikethrough(content: string): string {
-  const matches = content.match(/~~.*~~/g);
+  const matches = content.match(/~~.*?~~/g);
 
   if (matches) {
     for (const match of matches) {
