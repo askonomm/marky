@@ -1,14 +1,14 @@
 # Marky
 
-A Markdown parser written in TypeScript that spits out HTML available as a Deno
-third party module and as a ES module.
+A modular and extensible Markdown parser written in TypeScript that spits out
+HTML available as a Deno third party module and as a ES module.
 
 ## Usage
 
 ### Deno
 
 ```typescript
-import { marky } from "https://deno.land/x/marky@v1.0.3/mod.ts";
+import { marky } from "https://deno.land/x/marky@v1.1/mod.ts";
 
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
@@ -30,13 +30,130 @@ this:
 
 ```html
 <script type="module">
-import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.0.3/marky.esm.js";
+import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.1/marky.esm.js";
 
-document.querySelector('body').innerHTML = marky("** hi there**");
+document.querySelector('body').innerHTML = marky("**hi there**");
 </script>
 ```
 
-## Spec
+## Parsers
+
+By default Marky has the feature-set described here in the
+[default spec](#default-spec) section, but you can change that! You can add,
+remove and even change existing features however you see fit. You see, Marky is
+made out of a bunch of parsers as the basic building blocks of the whole thing.
+
+If you wish to overwrite existing parsers, simply provide an array of `Parser`'s
+as the second argument to `marky`, like this:
+
+```typescript
+function isHorizontalLineBlock(block: string): boolean {
+  return block.replaceAll("\n", "").trim() === "***";
+}
+
+function horizontalLineBlock(): string {
+  return `<hr>`;
+}
+
+const parsers = [{
+  matcher: isHorizontalLineBlock,
+  renderers: [horizontalLineBlock],
+}];
+
+const html = marky("***", parsers);
+```
+
+As you can see in the above example, we're replacing the default parsers with a
+parser for just horizontal line blocks which will detect that a block has three
+asterisk characters and will then render a `<hr>` instead.
+
+Each parser has an optional matcher which takes in a block as a string, and must
+return a boolean, in which case that parser' renderers will be used to render
+the block. A parser also has an array of renderers that are used to create the
+final output. Each renderer takes in a block as a string, but unlike a matcher,
+must also return a string. You can have as many as you'd like, of course, for
+example:
+
+```typescript
+const parsers = [{
+  matcher: isHeadingBlock,
+  renderers: [
+    bold,
+    italic,
+    inlineCode,
+    strikethrough,
+    linkAndImage,
+    headingBlock,
+  ],
+}];
+```
+
+This parser will detect if we're dealing with a heading block, and will then run
+the block through several parsers.
+
+**Note:** You do not have to provide a matcher for a parser, but then the parser
+and its renderers will only be used when no other parser was matched.
+
+### Extending default parsers
+
+If you wish to add to the default parsers array, simply extend `defaultParsers`,
+like so:
+
+```typescript
+import { defaultParsers, marky } from "./marky.esm.js";
+
+const parsers = [{
+  matcher: isMyNewBlockMatcher,
+  renderers: [myNewRenderer],
+}];
+
+marky("***", defaultParsers.concat(parsers));
+```
+
+### Selecting default parsers
+
+You can also selectively create a list of default parsers, like so:
+
+```typescript
+import {
+  bold,
+  headingBlock,
+  isHeadingBlock,
+  italic,
+  marky,
+} from "./marky.esm.js";
+
+marky("***", [{
+  matcher: isHeadingBlock,
+  renderers: [bold, italic, headingBlock],
+}]);
+```
+
+Available list of renderers you can import:
+
+- `bold`
+- `italic`
+- `inlineCode`
+- `strikethrough`
+- `linkAndImage`
+- `emptyBlock`
+- `headingBlock`
+- `codeBlock`
+- `horizontalLineBlock`
+- `quoteBlock`
+- `listBlock`
+- `paragraphBlock`
+
+Available list of matchers you can import:
+
+- `isEmptyBlock`
+- `isHeadingBlock`
+- `isCodeBlock`
+- `isHorizontalLineBlock`
+- `isQuoteBlock`
+- `isListBlock`
+
+## Default spec
 
 ### Bold text
 
