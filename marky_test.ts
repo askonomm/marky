@@ -82,7 +82,7 @@ Hi there.
 
 :)`;
   const expectedResult =
-    `<p>Hi there.</p><blockquote><p>quote block <em>with italic text</em> hola and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote continues here</p></blockquote></blockquote><p>:)</p>`;
+    `<p>Hi there.</p><blockquote><p>quote block <em>with italic text</em>\n hola\n and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote\n continues here</p></blockquote></blockquote><p>:)</p>`;
   assertEquals(expectedResult, marky(testString));
 });
 
