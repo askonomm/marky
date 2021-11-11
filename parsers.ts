@@ -285,7 +285,7 @@ export function listBlock(block: string): string {
  * that into HTML like `<p>text</p>`.
  */
 export function paragraphBlock(block: string): string {
-  return `<p>${block.replaceAll("\n", "").trim()}</p>`;
+  return `<p>${block.trim()}</p>`;
 }
 
 export type Parser = {
