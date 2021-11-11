@@ -210,7 +210,7 @@ function listBlock(block) {
   return block;
 }
 function paragraphBlock(block) {
-  return `<p>${block.replaceAll("\n", "").trim()}</p>`;
+  return `<p>${block.trim()}</p>`;
 }
 const defaultParsers = [
   {
