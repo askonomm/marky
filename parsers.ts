@@ -167,6 +167,12 @@ export function codeBlock(block: string): string {
 
   if (language) {
     value = block.replace(/\`\`\`\w+/, "").replace(/\n\`\`\`/, "");
+
+    // Encode
+    value = value.replace(/&/g, "&amp;");
+    value = value.replace(/</g, "&lt;");
+    value = value.replace(/>/g, "&gt;");
+
     return `<pre class="language-${language}"><code>${value}</code></pre>`;
   }
 

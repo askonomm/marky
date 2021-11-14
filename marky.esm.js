@@ -145,6 +145,9 @@ function codeBlock(block) {
   let value = "";
   if (language) {
     value = block.replace(/\`\`\`\w+/, "").replace(/\n\`\`\`/, "");
+    value = value.replace(/&/g, "&amp;");
+    value = value.replace(/</g, "&lt;");
+    value = value.replace(/>/g, "&gt;");
     return `<pre class="language-${language}"><code>${value}</code></pre>`;
   }
   return `<pre><code>${block.substring(3, block.length - 3)}</code></pre>`;

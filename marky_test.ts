@@ -53,6 +53,10 @@ asdasdjs goes Header
 and what if this also has \`\`\`ticks\`\`\`
 \`\`\`
 
+\`\`\`html
+<div>this is html</div>
+\`\`\`
+
 And regular text ensues.
 
 And more regular text.
@@ -62,7 +66,7 @@ code goes Header
 </code></pre><pre class="language-javascript"><code>
 asdasdjs goes Header
 
-and what if this also has \`\`\`ticks\`\`\`</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
+and what if this also has \`\`\`ticks\`\`\`</code></pre><pre class="language-html"><code>\n&lt;div&gt;this is html&lt;/div&gt;</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
   assertEquals(expectedResult, marky(testString));
 });
 
