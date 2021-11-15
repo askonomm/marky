@@ -168,10 +168,19 @@ export function codeBlock(block: string): string {
   if (language) {
     value = block.replace(/\`\`\`\w+/, "").replace(/\n\`\`\`/, "");
 
+    // Remove first \n if the first line is empty
+    if (value.split("\n")[0].trim() === "") {
+      value = value.replace("\n", "");
+    }
+
     // Encode
     value = value.replace(/&/g, "&amp;");
     value = value.replace(/</g, "&lt;");
     value = value.replace(/>/g, "&gt;");
+
+    // Replace all line breaks with a `<br>` because otherwise
+    // `<pre>` thinks that lines following a \n should have a tab, which is dumb.
+    value = value.replaceAll("\n", "<br>");
 
     return `<pre class="language-${language}"><code>${value}</code></pre>`;
   }
