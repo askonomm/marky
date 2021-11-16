@@ -179,7 +179,7 @@ function quoteBlock(block) {
   return block;
 }
 function isListBlock(block) {
-  return !!block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
+  return !!block.match(/\n-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
 }
 function listBlock(block) {
   const matches = block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);

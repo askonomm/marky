@@ -5,28 +5,28 @@ import { assertEquals } from "https://deno.land/std@0.113.0/testing/asserts.ts";
 Deno.test("bold text parsing and conversion", () => {
   const testString = `Hello **Mr. Bond**.`;
   const expectedResult = `<p>Hello <strong>Mr. Bond</strong>.</p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test italic text parsing and conversion
 Deno.test("italic text parsing and conversion", () => {
   const testString = `Hello _Mr. Bond_.`;
   const expectedResult = `<p>Hello <em>Mr. Bond</em>.</p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test inline code text parsing and conversion
 Deno.test("inline code text parsing and conversion", () => {
   const testString = `Hello \`Mr. Bond\`.`;
   const expectedResult = `<p>Hello <code>Mr. Bond</code>.</p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test strikethrough text parsing and conversion
 Deno.test("strikethrough text parsing and conversion", () => {
   const testString = `Hello ~~Mr. Bond\~~.`;
   const expectedResult = `<p>Hello <del>Mr. Bond</del>.</p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Links and images text parsing and conversion
@@ -35,7 +35,7 @@ Deno.test("links and images parsing and conversion", () => {
     `Hello [Mr. Bond](https://google.com). Here's a ![cat](catpic.jpg)`;
   const expectedResult =
     `<p>Hello <a href="https://google.com">Mr. Bond</a>. Here's a <img src="catpic.jpg" alt="cat"></p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test code blocks
@@ -61,13 +61,9 @@ And regular text ensues.
 
 And more regular text.
   `;
-  const expectedResult = `<p>Hi there.</p><pre><code>
-code goes Header
-</code></pre><pre class="language-javascript"><code>
-asdasdjs goes Header
-
-and what if this also has \`\`\`ticks\`\`\`</code></pre><pre class="language-html"><code>\n&lt;div&gt;this is html&lt;/div&gt;</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
-  assertEquals(expectedResult, marky(testString));
+  const expectedResult =
+    `<p>Hi there.</p><pre><code>\ncode goes Header\n</code></pre><pre class="language-javascript"><code>asdasdjs goes Header<br><br>and what if this also has \`\`\`ticks\`\`\`</code></pre><pre class="language-html"><code>&lt;div&gt;this is html&lt;/div&gt;</code></pre><p>And regular text ensues.</p><p>And more regular text.</p>`;
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test quote blocks
@@ -87,13 +83,15 @@ Hi there.
 :)`;
   const expectedResult =
     `<p>Hi there.</p><blockquote><p>quote block <em>with italic text</em>\n hola\n and hola dos</p><p>new paragraph!</p><blockquote><p>nested blockquote\n continues here</p></blockquote></blockquote><p>:)</p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test list blocks
 Deno.test("list block parsing and conversion", () => {
   const testString = `
-Paragraph.
+Paragraph that has a number in it 123. 
+
+Paragraph that has an asterisk in it * hello.
 
 * and a new list!
 * woohoo
@@ -105,8 +103,8 @@ Paragraph.
 
 Another paragraph.`;
   const expectedResult =
-    `<p>Paragraph.</p><ul><li>and a new list!</li><li>woohoo</li><ul><li>Nested list</li><li>Yes?</li><ol><li>And another</li><li>More nest</li></ol></ul><ol><ol><li>And another</li><li>More nest</li></ol></ol><li><strong>thing!</strong></li></ul><p>Another paragraph.</p>`;
-  assertEquals(expectedResult, marky(testString));
+    `<p>Paragraph that has a number in it 123.</p><p>Paragraph that has an asterisk in it * hello.</p><ul><li>and a new list!</li><li>woohoo</li><ul><li>Nested list</li><li>Yes?</li><ol><li>And another</li><li>More nest</li></ol></ul><ol><ol><li>And another</li><li>More nest</li></ol></ol><li><strong>thing!</strong></li></ul><p>Another paragraph.</p>`;
+  assertEquals(marky(testString), expectedResult);
 });
 
 // Test block parsing and conversion
@@ -124,5 +122,5 @@ Why, me too!
     `;
   const expectedResult =
     `<h1>The Villain</h1><p>Hello Mr. Bond.</p><p>I've been <em>expecting</em> you.</p><h2>The Bond</h2><p>Why, me too!</p>`;
-  assertEquals(expectedResult, marky(testString));
+  assertEquals(marky(testString), expectedResult);
 });

@@ -236,7 +236,7 @@ export function quoteBlock(block: string): string {
  * Checks whether the given `block` is a unordered list block.
  */
 export function isListBlock(block: string): boolean {
-  return !!block.match(/-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
+  return !!block.match(/\n-?\s?-?\s?(\*\s.*|\d\.\s.*)[^\*]/g);
 }
 
 /**
