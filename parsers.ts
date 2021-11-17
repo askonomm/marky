@@ -50,7 +50,13 @@ export function inlineCode(block: string): string {
 
   if (matches) {
     for (const match of matches) {
-      const value = match.substring(1, match.length - 1);
+      let value = match.substring(1, match.length - 1);
+
+      // Encode
+      value = value.replace(/&/g, "&amp;");
+      value = value.replace(/</g, "&lt;");
+      value = value.replace(/>/g, "&gt;");
+
       const replacement = `<code>${value}</code>`;
 
       block = block.replace(match, replacement);
