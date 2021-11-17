@@ -80,7 +80,10 @@ function inlineCode(block) {
   const matches = block.match(/\`.*?\`/g);
   if (matches) {
     for (const match of matches) {
-      const value = match.substring(1, match.length - 1);
+      let value = match.substring(1, match.length - 1);
+      value = value.replace(/&/g, "&amp;");
+      value = value.replace(/</g, "&lt;");
+      value = value.replace(/>/g, "&gt;");
       const replacement = `<code>${value}</code>`;
       block = block.replace(match, replacement);
     }
