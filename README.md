@@ -30,7 +30,7 @@ this:
 
 ```html
 <script type="module">
-import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.1.6/marky.esm.js";
+import { marky } from "https://cdn.jsdelivr.net/gh/askonomm/marky@1.1.7/marky.esm.js";
 
 document.querySelector('body').innerHTML = marky("**hi there**");
 </script>
