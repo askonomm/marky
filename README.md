@@ -8,7 +8,7 @@ HTML available as a Deno third party module and as a ES module.
 ### Deno
 
 ```typescript
-import { marky } from "https://deno.land/x/marky@v1.1.6/mod.ts";
+import { marky } from "https://deno.land/x/marky@v1.1.7/mod.ts";
 
 const html = marky("**hi there**"); // => <p><strong>hi there</strong></p>
 ```
