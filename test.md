@@ -32,3 +32,5 @@ blablabla
 Hello. **BOld text goes here**. And __also here__. Add _emphasis_ and also *emphasis*. 
 
 What about **bold and _italic_**. 
+
+And ***bold and italic***.

@@ -3,6 +3,7 @@ import headingBlockParser from "./parsers/block/heading.js";
 import hrBlockParser from "./parsers/block/hr.js";
 import boldInlineParser from "./parsers/inline/bold.js";
 import italicInlineParser from "./parsers/inline/italic.js";
+import boldAndItalicParser from "./parsers/inline/boldAndItalic.js";
 import codeStitcher from "./stitchers/code.js";
 import fs from "node:fs";
 
@@ -87,6 +88,7 @@ export const defaultConfig: Opts = {
         hrBlockParser,
     ],
     inlineParsers: [
+        boldAndItalicParser,
         boldInlineParser,
         italicInlineParser,
     ],
