@@ -37,8 +37,7 @@ export interface Opts {
  * @private
  */
 function stitchBlocks(blocks: string[], stitchers: Stitcher[]): string[] {
-    for (const stitcher of 
-        stitchers) {
+    for (const stitcher of stitchers) {
         if (stitcher.needsStitching(blocks)) {
             blocks = stitcher.stitch(blocks);
         }
